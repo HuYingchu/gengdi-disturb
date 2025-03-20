@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>瓦片坐标计算器</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        input {
+            margin: 5px 0;
+            padding: 10px;
+            width: 200px;
+        }
+
+        button {
+            padding: 10px 15px;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>瓦片坐标计算器</h2>
+    <label for="longitude">经度:</label>
+    <input type="number" id="longitude" placeholder="输入经度" /><br />
+    <label for="latitude">纬度:</label>
+    <input type="number" id="latitude" placeholder="输入纬度" /><br />
+    <label for="zoom">缩放级别:</label>
+    <input type="number" id="zoom" placeholder="输入缩放级别" /><br />
+    <button onclick="calculate()">计算</button>
+
+    <div class="result" id="result"></div>
+
+    <script>
+        function latLonToMeters(lon, lat) {
+            const originShift = 2 * Math.PI * 6378137 / 2.0;
+            const mx = lon * originShift / 180.0;
+            let my = Math.log(Math.tan((90 + lat) * Math.PI / 360.0)) / (Math.PI / 180.0); // 改为 let
+            my = my * originShift / 180.0;
+            return { mx, my };
+        }
+
+        function metersToTile(mx, my, zoom) {
+            const tileSize = 256;
+            const initialResolution = 2 * Math.PI * 6378137 / tileSize;
+            const resolution = initialResolution / Math.pow(2, zoom);
+
+            const px = (mx + 2 * Math.PI * 6378137 / 2.0) / resolution;
+            const py = (2 * Math.PI * 6378137 / 2.0 - my) / resolution;
+
+            const tileX = Math.floor(px / tileSize);
+            const tileY = Math.floor(py / tileSize);
+
+            return { tileX, tileY, pixelX: px % tileSize, pixelY: py % tileSize };
+        }
+
+        function tileBounds(tileX, tileY, zoom) {
+            const tileSize = 256;
+            const initialResolution = 2 * Math.PI * 6378137 / tileSize;
+            const resolution = initialResolution / Math.pow(2, zoom);
+
+            const minx = tileX * tileSize * resolution - 2 * Math.PI * 6378137 / 2.0;
+            const maxx = (tileX + 1) * tileSize * resolution - 2 * Math.PI * 6378137 / 2.0;
+            const miny = 2 * Math.PI * 6378137 / 2.0 - (tileY + 1) * tileSize * resolution;
+            const maxy = 2 * Math.PI * 6378137 / 2.0 - tileY * tileSize * resolution;
+
+            return { minx, maxx, miny, maxy };
+        }
+
+        function metersToLatLon(mx, my) {
+            const lon = (mx / 6378137.0) * (180.0 / Math.PI);
+            const lat = (my / 6378137.0) * (180.0 / Math.PI);
+            return { lon, lat: (2 * Math.atan(Math.exp(lat * Math.PI / 180.0)) - Math.PI / 2) * (180.0 / Math.PI) };
+        }
+
+        function calculate() {
+            const lon = parseFloat(document.getElementById("longitude").value);
+            const lat = parseFloat(document.getElementById("latitude").value);
+            const zoom = parseInt(document.getElementById("zoom").value);
+
+            const { mx, my } = latLonToMeters(lon, lat);
+            const { tileX, tileY, pixelX, pixelY } = metersToTile(mx, my, zoom);
+            const bounds = tileBounds(tileX, tileY, zoom);
+            const sw = metersToLatLon(bounds.minx, bounds.miny);
+            const ne = metersToLatLon(bounds.maxx, bounds.maxy);
+
+            document.getElementById("result").innerHTML = `
+                <strong>结果:</strong><br />
+                瓦片列: ${tileX}<br />
+                瓦片行: ${tileY}<br />
+                瓦片内像素坐标: (${Math.floor(pixelX)}, ${Math.floor(pixelY)})<br />
+                瓦片经度范围: [${sw.lon.toFixed(6)}, ${ne.lon.toFixed(6)}]<br />
+                瓦片纬度范围: [${sw.lat.toFixed(6)}, ${ne.lat.toFixed(6)}]
+            `;
+        }
+    </script>
+
+</body>
+
+</html>
+
+经度: 
+121.04680461922027
+
+纬度: 
+28.576823982577267
+
+缩放级别: 
+17
+this.geoData = await fetchGeoServerData({ lng: this.content.lng, lat: this.content.lat }, this.$parent.tmap);
+                const zoom = Math.round(this.$parent.tmap.map.getZoom()) + 1; // 动态计算缩放级别
+    console.log(zoom);

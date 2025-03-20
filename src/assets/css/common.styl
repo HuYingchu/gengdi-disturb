@@ -1,0 +1,338 @@
+*
+    margin 0
+    padding 0
+    list-style none
+    text-decoration none
+    font-family Arial, sans-serif
+    outline none
+    scrollbar-width none
+    -ms-overflow-style none
+
+html,
+body
+    width 100%
+    height 100%
+    background-color var(--bg-color)
+    color var(--content-color)
+    overflow hidden
+
+::-webkit-scrollbar 
+    display:none
+
+// 全局样式
+:root
+    --accent-color: #FF836E;
+
+    /* 深色模式 */
+    //--text-color: #444444;
+    // --white #f0f0f0
+    //--white-grey #c5cad1
+    //--dark-grey #60646b
+    //--grey #394652
+    //--light-grey #a0a7b4
+    //--dark #29323c
+    //--darker #242730
+    //--darkest #1d1f26
+    //--green #0f9668
+    //--purple #8f2fbf
+    //--blue #1fbad5
+    //--light-blue #74d2e2
+    //--yellow #bbae7f
+    //
+    //--bg-color var(--darker)
+    //--header-bg-color var(--grey)
+    //--header-hover-bg-color var(--darkest)
+    //--content-bg-color var(--darker)
+    //
+    ////--bg-color rgba(0,0,0,0)
+    ////--header-bg-color rgba(0,0,0,0)
+    ////--header-hover-bg-color rgba(0,0,0,0)
+    ////--content-bg-color rgba(0,0,0,0)
+    //
+    //--header-color var(--white)
+    //--content-color var(--white-grey)
+    //--content-hover-color var(--white-grey)
+    //--inactive-color var(--dark-grey)
+    //--shadow-color #111
+    //--shadow 0 3px 15px var(--shadow-color)
+    //--tag-color var(--blue)
+    //--border-color var(--blue)
+    //--icon-color var(--blue)
+    //--icon-hover-color var(--light-blue)
+    //--btn-bg-color var(--grey)
+    //--btn-hover-bg-color var(--dark-grey)
+    //--btn-color var(--content-color)
+    //--loading-bg-color var(--white)
+    //--selector-bg-color var(--grey)
+    //--selector-hover-bg-color var(--dark-grey)
+    //--collapse-item-bg-color var(--dark)
+    //--collapse-item-hover-bg-color var(--darkest)
+    //--collapse-subitem-bg-color var(--dark)
+    //--collapse-subitem-hover-bg-color var(--darkest)
+
+
+    /* 浅色模式 */
+    --text-color #222222
+
+    --blue #005596
+    --indigo #6610f2
+    --purple: #6f42c1;
+    --pink: #e83e8c;
+    --red: #dc3545;
+    --orange: #fd7e14;
+    --yellow: #ffc107;
+    --green: #A7C6E7;/* 冰川蓝色 */
+    --teal: #20c997;
+    --cyan: #17a2b8;
+    --white: #fff;
+    --light-gray: #e5e5e5
+    --gray: #ccc;
+    --gray-gray: #aaa;
+    --gray-dark: #343a40;
+    --primary: #007bff;
+    --secondary: #6c757d;
+    --success: #28a745;
+    --info: #17a2b8;
+    --warning: #ffc107;
+    --danger: #dc3545;
+    --light: #f8f9fa;
+    --dark: #343a40;
+
+    /*--light-gray: #d3d3d3;*/
+    --silver: #c0c0c0;
+    --medium-gray: #a9a9a9;
+    --dark-gray: #696969;
+    --dim-gray: #505050;
+    --slate-gray: #708090;
+    --charcoal: #36454f;
+    --slate: #778899;
+    --black: #000000;
+    --lightest-gray: #F5F5F5; /* 最浅灰色 */
+    --ggary: #555;
+    --bingchuanlanxuanfu:#8DA9D9;
+    --qianhui: #F1F1F1
+
+
+    --home-page var(--ggary)
+    --bg-color var(--white)
+    --header-bg-color var(--qianhui)
+    --header-color var(--text-color)
+    --content-bg-color var(--lightest-gray)
+    --content-color var(--text-color)
+    --hover-content-color var(--text-color)
+    --inactive-color var(--text-color)
+    --shadow-color var(--gray)
+    --shadow 0px 0px 10px var(--shadow-color)
+    --tag-color var(--green)
+    --border-color var(--green)
+    --icon-color var(--green)
+    --icon-hover-color var(--light-blue)
+    --btn-bg-color var(--green)
+    --btn-hover-bg-color var(--bingchuanlanxuanfu)
+    --btn-color var(--white)
+    --loading-bg-color var(--white)
+    --selector-bg-color var(--light-gray)
+    --selector-hover-bg-color var(--gray-gray)
+    --collapse-item-bg-color var(--light-gray)
+    --collapse-item-hover-bg-color var(--green)
+    --collapse-subitem-bg-color var(--white)
+    --collapse-subitem-hover-bg-color var(--gray)
+
+.fade-enter-active,
+.fade-leave-active
+  transition: all 0.3s ease     
+
+.fade-enter, 
+.fade-leave-active 
+  opacity: 0 
+
+.btn
+    display flex
+    justify-content center 
+    align-items center
+    height 14px
+    margin 10px 0
+    padding 9px 12px
+    background-color var(--btn-bg-color)
+    color var(--btn-color)
+    font-size 12px
+    line-height 14px
+    text-align center
+    cursor pointer
+    transition all .2s ease-in-out
+    border-radius 2px
+.btn:hover
+    background-color var(--btn-hover-bg-color)
+
+//// 地图组件样式
+//.esri-view .esri-view-surface--inset-outline:focus::after
+//    outline none
+//
+//.esri-component,
+//.esri-widget
+//    background var(--content-bg-color)
+//    color var(--content-color)
+//    box-shadow var(--shadow)
+//
+//.esri-widget--button
+//.esri-time-slider__slider
+//    background-color var(--content-bg-color)
+//    .esri-slider--horizontal
+//        background-color var(--content-bg-color)
+//        box-shadow none
+//.esri-widget--button:hover
+//    background-color var(--btn-hover-bg-color)
+//    color var(--hover-content-color)
+//.esri-widget--button:focus
+//    outline none
+//
+//.esri-legend
+//    width 150px !important
+//    background-color var(--content-bg-color)
+//    .esri-legend__service-label
+//        display none
+//
+//.esri-time-slider__time-extent-date
+//    color var(--blue)
+//    margin 5px 0 -5px
+//
+//.esri-slider__thumb
+//    border-color var(--blue)
+
+.mapboxgl-ctrl-group
+    background none
+.mapboxgl-ctrl-group button+button
+    border-top 1px solid transparent
+.mapboxgl-ctrl-icon
+    background var(--content-bg-color)
+    color var(--content-color)
+    box-shadow var(--shadow)
+    transition all 0.4s ease 0s
+.mapboxgl-ctrl-icon:hover
+    background-color var(--light-gray)
+
+.mapboxgl-ctrl button.mapboxgl-ctrl-fullscreen .mapboxgl-ctrl-icon
+.mapboxgl-ctrl button.mapboxgl-ctrl-shrink .mapboxgl-ctrl-icon
+    background-image url("~@/assets/images/fullscreen.svg")
+
+.mapboxgl-ctrl button.mapboxgl-ctrl-zoom-in .mapboxgl-ctrl-icon
+    background-image url("~@/assets/images/zoom-in.svg")
+
+.mapboxgl-ctrl button.mapboxgl-ctrl-zoom-out .mapboxgl-ctrl-icon
+    background-image url("~@/assets/images/zoom-out.svg")
+
+.mapboxgl-ctrl button.mapboxgl-ctrl-compass .mapboxgl-ctrl-icon
+    border-radius 50%
+
+.mapboxgl-ctrl-geocoder
+    display none
+    position fixed
+    right 60px
+    top 80px
+    width 100px
+    background-color var(--content-bg-color)
+    input[type="text"]
+        color var(--content-color) !important
+    .geocoder-pin-right *
+        background-color transparent
+    ul
+        background-color var(--content-bg-color)
+        li > a
+            color var(--content-color)
+        li.active > a
+        li > a:hover
+            background-color var(--header-bg-color)
+            color var(--content-color)
+.geocoder-icon-search
+    background-image url("~@/assets/images/geocoder-finder.svg")
+.geocoder-icon-close
+    background-image url("~@/assets/images/geocoder-close.svg")
+.geocoder-icon-loading
+    background-image url("~@/assets/images/geocoder-loading.svg")
+
+.mapboxgl-popup-anchor-top,
+.mapboxgl-popup-anchor-top-right
+.mapboxgl-popup-anchor-top-left
+    .mapboxgl-popup-tip
+        border-bottom-color var(--content-bg-color) !important
+.mapboxgl-popup-anchor-bottom,
+.mapboxgl-popup-anchor-bottom-right,
+.mapboxgl-popup-anchor-bottom-left
+    .mapboxgl-popup-tip
+        border-top-color var(--content-bg-color) !important
+
+.mapboxgl-popup-content
+    box-sizing border-box
+    width auto
+    min-width 250px
+    max-width 500px
+    //max-height 400px
+    //overflow-y scroll
+    padding 6px 0
+    background-color var(--content-bg-color)
+    color var(--content-color)
+    font-size 13px
+    position relative
+    z-index 1000
+    box-shadow var(--shadow)
+    transition all 0.2s ease
+
+// elemnt-ui样式
+[class*=" el-icon-"], [class^=el-icon-]
+    font-size 16px
+
+// el-select 样式
+//.el-select-dropdown
+//    border none !important
+//.el-select
+//    .el-input__inner
+//        box-sizing border-box
+//        width 100%
+//        padding 4px 12px
+//        color var(--content-color)
+//        background-color var(--selector-bg-color)
+//        border 0px solid var(--darkest)
+//        border-radius 2px
+//        transition all 0.4s ease-in-out
+//    .el-input__inner:hover
+//        background-color var(--selector-hover-bg-color)
+//.el-select-dropdown__list
+//    background-color var(--selector-bg-color)
+//    .el-select-dropdown__item
+//        font-size 13px
+//        color var(--content-color)
+//    .el-select-dropdown__item.hover,
+//    .el-select-dropdown__item:hover
+//        background-color var(--selector-hover-bg-color)
+//    .el-select-dropdown__item.selected
+//        color var(--blue)
+//        font-weight normal
+// arrows
+.el-popper[x-placement^=bottom] .popper__arrow
+    border-bottom-color var(--dark) !important
+.el-popper[x-placement^=bottom] .popper__arrow::after
+    border-bottom-color var(--darker) !important
+
+.el-button
+    border none
+    font-size 12px
+    line-height 14px
+    text-align center
+    cursor pointer
+    transition all .2s ease-in-out
+    border-radius 2px
+    background-color var(--white)
+.el-button:hover
+    color var(--dark-grey)
+    background-color var(--white-grey)
+.el-button.el-button--primary
+    background-color var(--btn-bg-color)
+.el-button.el-button--primary:hover
+    color var(--white)
+    background-color var(--btn-hover-bg-color)
+.el-message-box__status.el-icon-info
+.el-message-box__close.el-icon-close:hover
+    color var(--blue)
+
+.el-main
+    padding 0
