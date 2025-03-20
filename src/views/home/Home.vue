@@ -32,7 +32,7 @@
                     style="width: 100%">
                 </el-button>
                 <el-scrollbar class="nav">
-                    <el-menu default-active="1"
+                    <el-menu default-active="3"
                          :collapse="isCollapse"
                          active-text-color=var(--bingchuanlanxuanfu)
                          :collapse-transition="false">
@@ -77,8 +77,8 @@ export default {
             tmap: null,
             headerTitle: '中国近实时地表异常归因系统',
             isCollapse: false,
-            currentTabComponent: 'dashboard',
-            currentMenuIndex: '1',
+            currentTabComponent: 'visualization', // 初始化为 "visualization"
+            currentMenuIndex: '3', // 初始化为 "3"
             showHotZone: false,
             tabs: ["dashboard", "visualization","userManage","visualization_copy"],
             showLoading: true,
@@ -106,6 +106,9 @@ export default {
         
     },
     mounted() {
+        // 设置默认显示的菜单项
+        this.currentTabComponent = this.tabs[1]; // "visualization"
+        this.currentMenuIndex = '3'; // 对应 "扰动" 的 index
     },
     methods: {
         confirmLogout() {
