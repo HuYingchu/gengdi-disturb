@@ -21,7 +21,7 @@ function render1(colormap) {
 
 function legendRender1(colormap) {
     return {
-        name: '耕地土壤质量类别',
+        name: '作物阶段',
         type: 'polygon',
         info: [
             ['萌发期', colormap[0]],
@@ -37,11 +37,11 @@ function legendRender1(colormap) {
 
 export default {
     name: 'stage',
-    aliasName: '部分嘉善县',
-    topicName: '浙江省耕地监控',
+    aliasName: '嘉兴市（部分）',
+    topicName: '浙江省耕地情况',
     type: 'vector',
     layers: [{
-        aliasName: '江北区耕地边界',
+        aliasName: 'stage',
         hoverable: false,
         clickable: false,
         opacityAttr: 'line-opacity',
@@ -62,9 +62,19 @@ export default {
                 visibility: visibility
             },
             paint: {
-                'line-color': '#666',
-                'line-opacity': opacity,
-                'line-width': 1
+                'line-color': [
+                    'case',
+                    ['boolean', ['feature-state', 'selected'], false],
+                    '#ff0000',  // 选中时的边框颜色（红色）
+                    '#666'      // 默认边框颜色
+                ],
+                'line-width': [
+                    'case',
+                    ['boolean', ['feature-state', 'selected'], false],
+                    6,          // 选中时的边框宽度
+                    1           // 默认边框宽度
+                ],
+                'line-opacity': opacity
             }
         },
         colormapConfig: {
@@ -73,7 +83,7 @@ export default {
             render: () => '#666'
         }
     },{
-        aliasName: '江北区耕地',
+        aliasName: '耕地信息',
         hoverable: true,
         clickable: true,
         opacityAttr: 'fill-opacity',
@@ -108,7 +118,7 @@ export default {
             render: legendRender1
         },
         infoPanelConfig: {
-            title: '江北区耕地',
+            title: '耕地信息',
             alias: {
                 "stage": "类别",
                 "confidence": "置信度"

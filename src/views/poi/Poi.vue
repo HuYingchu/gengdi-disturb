@@ -6,20 +6,18 @@
                     :visible-layer-infos="visibleLayerInfos"
                     :initial-position="{ x: 300, y: 15 }"
                 ></info-table>
-            <vector-layer
-                v-for="(layerInfo, key) in layerInfos"
-                :key="key"
-                :layer-configs="layerInfo.layers"
-                :visibility="layerInfo.controls.visibility === 'visible'">
-            </vector-layer>
-            
-            <layer-controls class="layer-controls" :layer-infos ="layerInfos" :curLayerInfo="curLayerInfo"></layer-controls>
+                <vector-layer
+                    v-for="(layerInfo, key) in layerInfos"
+                    :key="key"
+                    :layer-configs="layerInfo.layers"
+                    :visibility="layerInfo.controls.visibility === 'visible'">
+                </vector-layer>
+                
+                <layer-controls class="layer-controls" :layer-infos ="layerInfos" :curLayerInfo="curLayerInfo"></layer-controls>
 
-            <info-table  :visible-layer-infos="visibleLayerInfos"></info-table>
-
-            <home-button></home-button>
-            <map-legend :visible-layer-infos= "visibleLayerInfos"></map-legend>
-            <zoom></zoom>
+                <home-button></home-button>
+                <map-legend :visible-layer-infos= "visibleLayerInfos"></map-legend>
+                <zoom></zoom>
             </div>
         </div>
     </div>

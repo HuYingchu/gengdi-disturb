@@ -32,19 +32,16 @@
                     <tr>
                         <th>经纬度</th>
                         <th>地表异常特征</th>
-                        <th>待添加</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>经度: {{ content.lng }}</td>
                         <td>地表异常连续观测数: {{ geoData.GRAY_DISTURB  }}</td>
-                        <td>待添加</td>
                     </tr>
                     <tr>
                         <td>纬度: {{ content.lat }}</td>
                         <td>地表异常事件置信度: {{ geoData.GRAY_PRO }}%</td>
-                        <td>待添加</td>
                     </tr>
                     <!-- 添加更多行 -->
                 </tbody>

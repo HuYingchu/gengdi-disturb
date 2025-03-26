@@ -84,7 +84,8 @@ export default {
             position: this.initialPosition,
             dragging: false,
             dragOffset: { x: 0, y: 0 },
-            isFirstShow: true // 添加标记，用于判断是否是首次显示
+            isFirstShow: true, // 用于判断是否是首次显示
+            selectedFeatureId: null // 跟踪选中的地块
         }
     },
 
@@ -166,18 +167,35 @@ export default {
                     })
 
                     // 添加点击事件
+                    // 添加点击事件
                     map.on('click', layerId, (e) => {
-                        console.log('Layer clicked:', layerId)
-                        console.log('Event:', e)
                         const feature = e.features[0]
-                        console.log('Feature:', feature)
-                        if (!feature) {
-                            console.log('No feature found')
-                            return
+                        if (!feature) return
+
+                        // 如果之前有选中的地块，恢复其样式
+                        if (this.selectedFeatureId) {
+                            map.setFeatureState(
+                                { 
+                                    source: 'stage-outline',  // 修改：使用线条图层的 source
+                                    sourceLayer: 'stagejx',
+                                    id: this.selectedFeatureId 
+                                },
+                                { selected: false }
+                            )
                         }
 
-                        console.log('Feature properties:', feature.properties)
-                        this.updateInfoPanelPosition(e, feature)
+                        // 设置新选中地块的样式
+                        this.selectedFeatureId = feature.id
+                        map.setFeatureState(
+                            { 
+                                source: 'stage-outline',  // 修改：使用线条图层的 source
+                                sourceLayer: 'stagejx',
+                                id: this.selectedFeatureId 
+                            },
+                            { selected: true }
+                        )
+
+                        this.updateInfoPanelPosition(e)
                         this.updateInfoPanelInfo(feature, layerId, infoPanelConfig)
                         this.detailVisible = 'visible'
                     })
@@ -187,12 +205,28 @@ export default {
         closePanel() {
             this.detailVisible = 'hidden'
             this.infoPanelDataSources = []
+            this.isFirstShow = true
+
+            // 清除选中状态
+            if (this.selectedFeatureId) {
+                this.visibleLayerInfos.forEach(layerInfo => {
+                    layerInfo.layers.forEach(layerConfig => {
+                        const layerId = layerConfig.layer.id
+                        this.tmap.map.setFeatureState(
+                            { source: layerId, id: this.selectedFeatureId },
+                            { selected: false }
+                        )
+                    })
+                })
+                this.selectedFeatureId = null
+            }
+
             if (this.tmap && this.tmap.map) {
                 this.tmap.map.getCanvas().style.cursor = ''
             }
         },
         updateInfoPanelPosition(evt) {
-            // 移除这个方法中的位置更新逻辑
+            
             // 只在第一次显示时设置 detailVisible
             if (this.isFirstShow) {
                 this.isFirstShow = false
@@ -216,6 +250,17 @@ export default {
             const alias = infoPanelConfig.alias || {}
             const data = {}
             
+            // 生长阶段映射表
+            const stageMap = {
+                '1': '萌发期',
+                '2': '返青初期',
+                '3': '返青盛期',
+                '4': '成熟期',
+                '5': '衰老初期',
+                '6': '衰老盛期',
+                '7': '休眠期'
+            }
+
             // 先添加经纬度信息
             if (feature.geometry && feature.geometry.coordinates) {
                 // 如果是多边形，取中心点
@@ -225,8 +270,8 @@ export default {
                     const sumX = coordinates.reduce((sum, coord) => sum + coord[0], 0)
                     const sumY = coordinates.reduce((sum, coord) => sum + coord[1], 0)
                     center = [
-                        (sumX / coordinates.length).toFixed(6),
-                        (sumY / coordinates.length).toFixed(6)
+                        (sumX / coordinates.length).toFixed(4),
+                        (sumY / coordinates.length).toFixed(4)
                     ]
                 } else {
                     center = feature.geometry.coordinates
@@ -240,7 +285,7 @@ export default {
                 if (alias[key]) {
                     let value = properties[key]
                     if (key === 'stage') {
-                        value = value + '类'
+                        value = stageMap[value]
                     } else if (key === 'confidence') {
                         value = Number(value).toFixed(2)
                     }
@@ -268,7 +313,6 @@ export default {
     padding: 10px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     z-index: 1000;
-    /* 可以通过修改 font-size 来改变整体字体大小 */
     /* font-size: 14px; */
 }
 
@@ -286,7 +330,7 @@ export default {
     flex: 1;
     text-align: center;
     /* 标题字体大小 */
-    /* font-size: 16px; */
+    font-size: 16px;
     /* font-weight: bold; */
 }
 

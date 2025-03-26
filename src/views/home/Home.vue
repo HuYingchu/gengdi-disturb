@@ -38,11 +38,11 @@
                          :collapse-transition="false">
                         <el-menu-item index="1" @click="currentTabComponent = tabs[0]" ref="item">
                             <i class="el-icon-map-location"></i>
-                            <span slot="title">扰动</span>
+                            <span slot="title">扰动监测</span>
                         </el-menu-item>
                         <el-menu-item index="2" @click="currentTabComponent = tabs[1]" ref="item">
                             <i class="el-icon-user-solid"></i>
-                            <span slot="title">耕地</span>
+                            <span slot="title">耕地情况</span>
                         </el-menu-item>
                         <!-- <el-menu-item index="4" @click="currentTabComponent = tabs[2]" ref="item">
                             <i class="el-icon-user-solid"></i>
@@ -65,7 +65,7 @@
 import Visualization from '@/views/visualization/Visualization';
 import { logout } from "../../components/utils/service";
 import TMap from "../../components/utils/tmap";
-import Visualization_copy from '@/views/visualization_copy/Visualization';
+import TMap2 from "../../views/poi/utils/tmap2"
 import Poi from "../poi/Poi"
 
 export default {
@@ -105,13 +105,22 @@ export default {
                     TMap.getInstance().map.resize()
                 }
             }, 300)
+        },
+        isCollapse() {
+            const _this = this
+            setTimeout(() => {
+                if (_this.currentTabComponent === 'poi') {
+                    TMap2.getInstance().map.resize()
+                }
+            }, 300)
         }
-        
+
+
     },
     mounted() {
         // 设置默认显示的菜单项
         this.currentTabComponent = this.tabs[0]; // "visualization"
-        this.currentMenuIndex = '3'; // 对应 "扰动" 的 index
+        this.currentMenuIndex = '1'; // 对应 "扰动" 的 index
     },
     methods: {
         confirmLogout() {

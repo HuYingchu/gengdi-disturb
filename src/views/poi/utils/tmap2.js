@@ -34,7 +34,7 @@ class TMap {
             style: 'mapbox://styles/weiweixx/cl8736szu000a14qdt6oapzcm',
             center: [120.74603, 30.78993],
             zoom: 11.5,
-            customAttribution: ["© 2021 浙江大学遥感与信息技术应用研究所"],
+            customAttribution: ["© 2024 浙江大学遥感与信息技术应用研究所"],
         })
 
         _this.map.on('load', function() {
