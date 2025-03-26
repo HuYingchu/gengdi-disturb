@@ -10,8 +10,7 @@ import construction from './construction'
 import ditu from './ditu'
 
 export default [
-    ditu
+    ditu,
+    conse
 
-    
-    
 ]

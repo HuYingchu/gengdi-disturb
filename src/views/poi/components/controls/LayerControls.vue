@@ -15,7 +15,7 @@ Layer Controls 图层管理器
         :height="650"
         :draggable="true"
         :has-left-icon="true"
-        :header-height="40"
+        :header-height="35"
         :header-title="'图层管理器'"
         :header-background-color="'var(--header-bg-color)'"
         :header-font-size="15"
@@ -27,70 +27,63 @@ Layer Controls 图层管理器
             class="header-icon" 
             style="padding-top: 7px"
             @click="handleClickIcon">
-            <svg viewBox="0 0 64 64" width="23px" height="23px" class="data-ex-icons-layers " style="fill: currentcolor;"><path d="M50.88,43.52a3.2,3.2,0,0,1,0,5.86L34.56,56.52a6.42,6.42,0,0,1-5.13,0L13.12,49.37a3.2,3.2,0,0,1,0-5.86l4.62-2a6,6,0,0,0,1.48,1l2.16.95-7,3.05,16.32,7.14a3.19,3.19,0,0,0,2.56,0L49.6,46.44l-7-3.05,2.16-.95a6,6,0,0,0,1.48-.95Zm0-14.39a3.2,3.2,0,0,1,0,5.86L34.56,42.13a6.42,6.42,0,0,1-5.13,0L13.12,35a3.2,3.2,0,0,1,0-5.86l4.62-2a6,6,0,0,0,1.48,1l2.16.95-7,3.05L30.72,39.2a3.19,3.19,0,0,0,2.56,0L49.6,32.06l-7-3.05,2.16-.95a6,6,0,0,0,1.48-.95ZM13.12,20.6a3.2,3.2,0,0,1,0-5.86L29.44,7.6a6.39,6.39,0,0,1,5.13,0l16.32,7.14a3.2,3.2,0,0,1,0,5.86L34.56,27.74a6.39,6.39,0,0,1-5.13,0Z"></path></svg>
+            <svg viewBox="0 0 64 64" width="23px" height="23px" class="data-ex-icons-layers " style="fill: currentcolor;">
+                <path d="M50.88,43.52a3.2,3.2,0,0,1,0,5.86L34.56,56.52a6.42,6.42,0,0,1-5.13,0L13.12,49.37a3.2,3.2,0,0,1,0-5.86l4.62-2a6,6,0,0,0,1.48,1l2.16.95-7,3.05,16.32,7.14a3.19,3.19,0,0,0,2.56,0L49.6,46.44l-7-3.05,2.16-.95a6,6,0,0,0,1.48-.95Zm0-14.39a3.2,3.2,0,0,1,0,5.86L34.56,42.13a6.42,6.42,0,0,1-5.13,0L13.12,35a3.2,3.2,0,0,1,0-5.86l4.62-2a6,6,0,0,0,1.48,1l2.16.95-7,3.05L30.72,39.2a3.19,3.19,0,0,0,2.56,0L49.6,32.06l-7-3.05,2.16-.95a6,6,0,0,0,1.48-.95ZM13.12,20.6a3.2,3.2,0,0,1,0-5.86L29.44,7.6a6.39,6.39,0,0,1,5.13,0l16.32,7.14a3.2,3.2,0,0,1,0,5.86L34.56,27.74a6.39,6.39,0,0,1-5.13,0Z"></path>
+            </svg>
         </div>
 
         <div slot="content" class="content">
-            <div
-                class="clear-btn btn"
-                @click="clearAllLayers">
+            <div class="clear-btn btn" @click="clearAllLayers">
                 <span class="el-icon-table-lamp icon"></span>
                 <span class="content">清除所有图层</span> 
             </div>
 
-            <el-collapse 
-                class="topics-wrapper"
-                v-model="expandedTopic">
-                <el-collapse-item 
-                    class="topic"
-                    v-for="(topic, id) in this.topics"
-                    :key="id"
-                    :name="id"
-                    handle=".drag-el">
+            <el-collapse class="topics-wrapper" v-model="expandedTopic">
+                <el-collapse-item class="topic" v-for="(topic, id) in this.topics" :key="id" :name="id" handle=".drag-el">
                     <template slot="title">
-                        <!-- <i class="header-icon el-icon-rank" 
-                        style="font-size: 13px; padding: 0 5px 0 0"></i>  -->
                         {{ topic.name }}
                     </template>
-                    <draggable
-                        class="list-group"
-                        tag="ul"
-                        handle=".drag-el"
-                        v-model="topic.layerInfos"
-                        v-bind="dragOptions"
-                        @start="drag = true"
-                        @end="updateLayersOrder">
+                    <draggable class="list-group" tag="ul" handle=".drag-el" v-model="topic.layerInfos" v-bind="dragOptions" @start="drag = true" @end="updateLayersOrder">
                         <transition-group type="transition" :name="!drag ? 'flip-list' : null">
-                            <li class="list-group-item"
-                                v-for="(layerInfo, index) in topic.layerInfos"
-                                :key="index + 1">
+                            <li class="list-group-item" v-for="(layerInfo, index) in topic.layerInfos" :key="index + 1">
                                 <div style="display: flex; align-items: center">
-                                    <svg viewBox="0 0 64 64" width="23px" height="23px" class="data-ex-icons-vertdot drag-el" style="fill: currentcolor;"><rect x="35.01" y="48.31" width="6.44" height="6.44"></rect><rect x="35.01" y="35.43" width="6.44" height="6.44"></rect><rect x="35.01" y="22.55" width="6.44" height="6.44"></rect><rect x="35.01" y="9.67" width="6.44" height="6.44"></rect><rect x="22.13" y="48.31" width="6.44" height="6.44"></rect><rect x="22.13" y="35.43" width="6.44" height="6.44"></rect><rect x="22.13" y="22.55" width="6.44" height="6.44"></rect><rect x="22.13" y="9.67" width="6.44" height="6.44"></rect></svg>
-                                    <span class="layer-name">{{ layerInfo.aliasName }}</span>
-                                    <svg 
-                                        @click="toggleLayerVisibility(layerInfo)"
-                                        :class="{'data-ex-icons-eyeseen': true, 'visible-btn': true, 'is-visible': layerInfo.controls.visibility === 'visible'}"
-                                        viewBox="0 0 64 64" width="28px" height="28px" data-tip="true" data-for="tooltip.hideLayer_uk67d48" currentItem="false" style="fill: currentcolor;"><path d="M55.25,35v-.09a1.86,1.86,0,0,0-.49-1,36.15,36.15,0,0,0-5.05-5,31.92,31.92,0,0,0-13.19-7A21.09,21.09,0,0,0,28,21.8a26.07,26.07,0,0,0-7.4,2.73,40.33,40.33,0,0,0-9.88,7.63c-.54.56-1.07,1.12-1.56,1.73a1.92,1.92,0,0,0,0,2.56,36.09,36.09,0,0,0,5.05,5,31.89,31.89,0,0,0,13.19,7,21.05,21.05,0,0,0,8.51.12,26.06,26.06,0,0,0,7.41-2.73,40.37,40.37,0,0,0,9.88-7.63c.54-.56,1.07-1.12,1.56-1.73a1.84,1.84,0,0,0,.49-1v-.19s0-.06,0-.09,0-.06,0-.09,0-.08,0-.09M32,44.51a9.35,9.35,0,1,1,9.28-9.35A9.31,9.31,0,0,1,32,44.51"></path><path d="M32,32.07a3.1,3.1,0,1,1-3.07,3.1A3.08,3.08,0,0,1,32,32.07"></path>
+                                    <svg viewBox="0 0 64 64" width="23px" height="23px" class="data-ex-icons-vertdot drag-el" style="fill: currentcolor;">
+                                        <rect x="35.01" y="48.31" width="6.44" height="6.44"></rect>
+                                        <rect x="35.01" y="35.43" width="6.44" height="6.44"></rect>
+                                        <rect x="35.01" y="22.55" width="6.44" height="6.44"></rect>
+                                        <rect x="35.01" y="9.67" width="6.44" height="6.44"></rect>
+                                        <rect x="22.13" y="48.31" width="6.44" height="6.44"></rect>
+                                        <rect x="22.13" y="35.43" width="6.44" height="6.44"></rect>
+                                        <rect x="22.13" y="22.55" width="6.44" height="6.44"></rect>
+                                        <rect x="22.13" y="9.67" width="6.44" height="6.44"></rect>
                                     </svg>
+                                    <span class="layer-name">{{ layerInfo.aliasName }}</span>
+                                    
+                                    <svg @click="toggleLayerVisibility(layerInfo)"
+                                        :class="{'data-ex-icons-eyeseen': true, 'visible-btn': true, 'is-visible': layerInfo.controls.visibility === 'visible'}"
+                                        viewBox="0 0 1024 1024" width="40px" height="40px" style="fill: currentcolor;">
+                                        <path v-if="layerInfo.controls.visibility === 'visible'" d="M726.976697 393.184142c-12.54369-12.447359-32.831716-12.320065-45.248112 0.25631L448.447252 629.248757l-103.26354-106.112189c-12.352748-12.703669-32.60809-12.927295-45.248112-0.639914-12.672705 12.320065-12.959978 32.60809-0.639914 45.248112l126.016611 129.503454c0.063647 0.096331 0.192662 0.096331 0.25631 0.192662 0.063647 0.063647 0.096331 0.192662 0.159978 0.25631 2.016073 1.983389 4.512082 3.19957 6.880796 4.544765 1.247144 0.672598 2.239699 1.792447 3.519527 2.303346 3.872168 1.599785 8.000645 2.399677 12.096439 2.399677 4.06483 0 8.12794-0.799892 11.967424-2.33603 1.247144-0.512619 2.208735-1.536138 3.392232-2.176052 2.399677-1.343475 4.895686-2.528692 6.944443-4.544765 0.063647-0.063647 0.096331-0.192662 0.192662-0.25631 0.063647-0.096331 0.159978-0.127295 0.25631-0.192662l256.223626-259.008628C739.647682 425.888563 739.520387 405.631501 726.976697 393.184142z" fill="#575B66"></path>
+                                        <path v-else d="M832 928.00086l-640 0c-52.9288 0-96.00086-43.07206-96.00086-95.99914l0-640c0-52.9288 43.07206-96.00086 96.00086-96.00086l640 0c52.92708 0 95.99914 43.07206 95.99914 96.00086l0 640C928.00086 884.9288 884.9288 928.00086 832 928.00086zM192 160.00086c-17.632039 0-32.00086 14.368821-32.00086 32.00086l0 640c0 17.664722 14.368821 31.99914 32.00086 31.99914l640 0c17.664722 0 31.99914-14.336138 31.99914-31.99914l0-640c0-17.632039-14.336138-32.00086-31.99914-32.00086L192 160.00086z" fill="#575B66"></path>
+                                    </svg>
+
                                     <svg
                                         @click="toggleSettingsVisibility(layerInfo)"
                                         :class="{'data-ex-icons-eyeseen': true, 'visible-btn': true, 'is-visible': layerInfo.controls.showSettings}"
-                                        viewBox="0 0 64 64" width="28px" height="28px" style="fill: currentcolor;"><rect x="28" y="44" width="8" height="8"></rect><rect x="28" y="28" width="8" height="8"></rect><rect x="28" y="12" width="8" height="8"></rect>
+                                        viewBox="0 0 64 64" width="28px" height="28px" style="fill: currentcolor;">
+                                        <rect x="28" y="44" width="8" height="8"></rect>
+                                        <rect x="28" y="28" width="8" height="8"></rect>
+                                        <rect x="28" y="12" width="8" height="8"></rect>
                                     </svg>
                                 </div>
-                                <div class="layer-settings"
-                                    v-show="layerInfo.controls.showSettings">
+                                <div class="layer-settings" v-show="layerInfo.controls.showSettings">
                                     <colormap-selector
                                         class="colormap-selector"
                                         :curColormap="layerInfo.controls.colormap"
                                         v-show="layerInfo.type !== 'raster'"
                                         @changeColormap="changeColormap($event, layerInfo)">
                                     </colormap-selector>
-                                    <layer-opacity-control
-                                        :layer-info="layerInfo">
-                                    </layer-opacity-control>
+                                    <layer-opacity-control :layer-info="layerInfo"></layer-opacity-control>
                                 </div>
-                                
                             </li>
                         </transition-group>
                     </draggable>

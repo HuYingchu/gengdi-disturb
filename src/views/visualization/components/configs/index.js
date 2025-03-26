@@ -10,11 +10,12 @@ import construction from './construction'
 import ditu from './ditu'
 
 export default [
-
+    
     next5,
     conse,
     dispro,
-    construction
+    construction,
+    ditu
     
     
 ]

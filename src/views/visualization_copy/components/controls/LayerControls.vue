@@ -95,9 +95,9 @@ Layer Controls 图层管理器
 
 <script>
 import draggable from 'vuedraggable'
-import TMap from "../../../../components/utils/tmap"
-import NormalWindow from "../../../../components/window/NormalWindow"
-import colormaps from "../../../../components/utils/colormap"
+import TMap from "../../../../components_copy/utils/tmap"
+import NormalWindow from "../../../../components_copy/window/NormalWindow"
+import colormaps from "../../../../components_copy/utils/colormap"
 import ColormapSelector from './ColormapSelector'
 import LayerOpacityControl from "./LayerOpacityControl"
 

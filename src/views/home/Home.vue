@@ -36,14 +36,19 @@
                          :collapse="isCollapse"
                          active-text-color=var(--bingchuanlanxuanfu)
                          :collapse-transition="false">
-                        <el-menu-item index="3" @click="currentTabComponent = tabs[1]" ref="item">
+                        <el-menu-item index="1" @click="currentTabComponent = tabs[0]" ref="item">
                             <i class="el-icon-map-location"></i>
                             <span slot="title">扰动</span>
                         </el-menu-item>
-                        <el-menu-item index="8" @click="currentTabComponent = tabs[3]" ref="item">
+                        <el-menu-item index="2" @click="currentTabComponent = tabs[1]" ref="item">
                             <i class="el-icon-user-solid"></i>
                             <span slot="title">耕地</span>
                         </el-menu-item>
+                        <!-- <el-menu-item index="4" @click="currentTabComponent = tabs[2]" ref="item">
+                            <i class="el-icon-user-solid"></i>
+                            <span slot="title">耕</span>
+                        </el-menu-item> -->
+                        
                     </el-menu>
                 </el-scrollbar>
             </el-aside>
@@ -60,17 +65,15 @@
 import Visualization from '@/views/visualization/Visualization';
 import { logout } from "../../components/utils/service";
 import TMap from "../../components/utils/tmap";
-import Dashboard from "../dashboard/Dashboard";
-import UserManage from "../UserManage/Manage";
 import Visualization_copy from '@/views/visualization_copy/Visualization';
+import Poi from "../poi/Poi"
 
 export default {
     name: 'home',
     components: {
+       
         Visualization,
-        Dashboard,
-        UserManage,
-        Visualization_copy
+        Poi
     },
     data() {
         return {
@@ -78,9 +81,9 @@ export default {
             headerTitle: '中国近实时地表异常归因系统',
             isCollapse: false,
             currentTabComponent: 'visualization', // 初始化为 "visualization"
-            currentMenuIndex: '3', // 初始化为 "3"
+            currentMenuIndex: '1', // 初始化为 "1"
             showHotZone: false,
-            tabs: ["dashboard", "visualization","userManage","visualization_copy"],
+            tabs: ["visualization","poi"], 
             showLoading: true,
             username: localStorage.username? localStorage.username : '',
             stackedDomList: null
@@ -107,7 +110,7 @@ export default {
     },
     mounted() {
         // 设置默认显示的菜单项
-        this.currentTabComponent = this.tabs[1]; // "visualization"
+        this.currentTabComponent = this.tabs[0]; // "visualization"
         this.currentMenuIndex = '3'; // 对应 "扰动" 的 index
     },
     methods: {

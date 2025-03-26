@@ -1,5 +1,5 @@
 import mapboxgl from "mapbox-gl"
-import { addDefaultSourcesAndLayers } from "../../views/visualization/components/utils/defaultLayers"
+import { addDefaultSourcesAndLayers } from "../../views/visualization_copy/components/utils/defaultLayers"
 
 mapboxgl.accessToken = "pk.eyJ1Ijoic2VkcmZndGhqIiwiYSI6ImNtMW1pNjJsaDBod2Eyam42ejQwcnkyOG4ifQ.7GViL0R5AZUIYRRpYlz20A"
 

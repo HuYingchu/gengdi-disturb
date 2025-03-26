@@ -163,8 +163,8 @@ export default {
 
 .date-picker-container {
   position: absolute;
-  bottom: 20px;
-  left: 20px;
+  bottom: 7px;
+  left: 100px;
   z-index: 2;
 }
 

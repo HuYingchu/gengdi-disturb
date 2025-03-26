@@ -32,7 +32,7 @@ class TMap {
             container: 'poi-container',
             // style: 'mapbox://styles/tishacy/ckhon0e5k080m19ns0wypj342',
             style: 'mapbox://styles/weiweixx/cl8736szu000a14qdt6oapzcm',
-            center: [121.44603, 28.58993],
+            center: [120.74603, 30.78993],
             zoom: 11.5,
             customAttribution: ["© 2021 浙江大学遥感与信息技术应用研究所"],
         })

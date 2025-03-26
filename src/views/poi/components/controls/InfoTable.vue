@@ -1,113 +1,59 @@
 <template>
-    <div class="info-panel"
-        id="info-panel"
-        ref="info-panel"
-        :style="{
-            'visibility':detailVisible,
-        }">
-        <div class="info-panel__wrapper"
-            v-loading = 'loading'
-            v-for="(infoPanelDataSource, index) in infoPanelDataSources"
-            :key=index
-            v-show="infoPanelDataSource.visible"
-            style="position: relative; width: 100%">
-            <div v-if="infoPanelDataSource.layerId == 'measure_info' &&  tableData.length!=0">
-                <div class="info-panel__header">
-                    <svg viewBox="0 0 64 64" width="15px" height="15px" class="data-ex-icons-layers " style="fill: currentcolor; padding:0 5px 0 0"><path d="M50.88,43.52a3.2,3.2,0,0,1,0,5.86L34.56,56.52a6.42,6.42,0,0,1-5.13,0L13.12,49.37a3.2,3.2,0,0,1,0-5.86l4.62-2a6,6,0,0,0,1.48,1l2.16.95-7,3.05,16.32,7.14a3.19,3.19,0,0,0,2.56,0L49.6,46.44l-7-3.05,2.16-.95a6,6,0,0,0,1.48-.95Zm0-14.39a3.2,3.2,0,0,1,0,5.86L34.56,42.13a6.42,6.42,0,0,1-5.13,0L13.12,35a3.2,3.2,0,0,1,0-5.86l4.62-2a6,6,0,0,0,1.48,1l2.16.95-7,3.05L30.72,39.2a3.19,3.19,0,0,0,2.56,0L49.6,32.06l-7-3.05,2.16-.95a6,6,0,0,0,1.48-.95ZM13.12,20.6a3.2,3.2,0,0,1,0-5.86L29.44,7.6a6.39,6.39,0,0,1,5.13,0l16.32,7.14a3.2,3.2,0,0,1,0,5.86L34.56,27.74a6.39,6.39,0,0,1-5.13,0Z"></path></svg>
-                    <span class="info-name">{{ title }}</span>
-                    <div class="quit-btn">
-                        <div class="el-icon-close detail-window-close-btn"  
-                            @click="closePanel">
-                        </div>
-                    </div>
-                </div>
-                <div class="inner_wrapper">
-                    <table class="info-panel__table">
-                        <tbody>
-                        <tr class="row"
-                            v-for="(value, name) in infoData[currentPage-1]"
-                            :key="name">
-                            <td class="row__name">{{ name }}</td>
-                            <td class="row__value">{{ value }}</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <div class='imgdom'>
-                        <img class="img" :src = "img_path" >
-                    </div>    
-                </div>
-                <el-pagination
-                        class="pagination"
-                        @current-change="handleCurrentChange"
-                        :current-page="currentPage"
-                        :page-size="currentPageSize"
-                        :total="tableData.length">
-                </el-pagination>
+    <div class="info-window" id="info-panel" ref="info-panel" :style="panelStyle">
+        <div class="info-window-header" @mousedown="startDrag">
+            <button class="toggle-btn">
+                <svg viewBox="0 0 64 64" width="23px" height="20px" class="data-ex-icons-layers" style="fill: #00BFFF; stroke: none">
+                    <path d="M50.88,43.52a3.2,3.2,0,0,1,0,5.86L34.56,56.52a6.42,6.42,0,0,1-5.13,0L13.12,49.37a3.2,3.2,0,0,1,0-5.86l4.62-2a6,6,0,0,0,1.48,1l2.16.95-7,3.05,16.32,7.14a3.19,3.19,0,0,0,2.56,0L49.6,46.44l-7-3.05,2.16-.95a6,6,0,0,0,1.48-.95Zm0-14.39a3.2,3.2,0,0,1,0,5.86L34.56,42.13a6.42,6.42,0,0,1-5.13,0L13.12,35a3.2,3.2,0,0,1,0-5.86l4.62-2a6,6,0,0,0,1.48,1l2.16.95-7,3.05L30.72,39.2a3.19,3.19,0,0,0,2.56,0L49.6,32.06l-7-3.05,2.16-.95a6,6,0,0,0,1.48-.95ZM13.12,20.6a3.2,3.2,0,0,1,0-5.86L29.44,7.6a6.39,6.39,0,0,1,5.13,0l16.32,7.14a3.2,3.2,0,0,1,0,5.86L34.56,27.74a6.39,6.39,0,0,1-5.13,0Z"></path>
+                </svg>
+            </button>
+            <span class="title">{{ currentPanelTitle }}</span>
+            <div class="quit-btn">
+                <div class="el-icon-close detail-window-close-btn" @click="closePanel"></div>
             </div>
-            <div v-else-if="infoPanelDataSource.layerId == 'arable-land' 
-                && infoPanelDataSource.data.length != 0 
-                && zh5_level != 1">
-                <div class="info-panel__header">
-                    <svg viewBox="0 0 64 64" width="15px" height="15px" class="data-ex-icons-layers " style="fill: currentcolor; padding: 0 5px 0 0"><path d="M50.88,43.52a3.2,3.2,0,0,1,0,5.86L34.56,56.52a6.42,6.42,0,0,1-5.13,0L13.12,49.37a3.2,3.2,0,0,1,0-5.86l4.62-2a6,6,0,0,0,1.48,1l2.16.95-7,3.05,16.32,7.14a3.19,3.19,0,0,0,2.56,0L49.6,46.44l-7-3.05,2.16-.95a6,6,0,0,0,1.48-.95Zm0-14.39a3.2,3.2,0,0,1,0,5.86L34.56,42.13a6.42,6.42,0,0,1-5.13,0L13.12,35a3.2,3.2,0,0,1,0-5.86l4.62-2a6,6,0,0,0,1.48,1l2.16.95-7,3.05L30.72,39.2a3.19,3.19,0,0,0,2.56,0L49.6,32.06l-7-3.05,2.16-.95a6,6,0,0,0,1.48-.95ZM13.12,20.6a3.2,3.2,0,0,1,0-5.86L29.44,7.6a6.39,6.39,0,0,1,5.13,0l16.32,7.14a3.2,3.2,0,0,1,0,5.86L34.56,27.74a6.39,6.39,0,0,1-5.13,0Z"></path></svg>
-                    <span class="info-name">{{ infoPanelDataSource.name }}</span>
-                    <div class="quit-btn">
-                        <div class="el-icon-close detail-window-close-btn"
-                            @click="closePanel">
-                        </div>
-                    </div>
-                </div>
-                <table class="info-panel__table">
+        </div>
+        <div class="info-window-content" v-for="(infoPanelDataSource, index) in infoPanelDataSources" :key="index" v-show="infoPanelDataSource.visible">
+            <div v-if="infoPanelDataSource.layerId == 'stage' && Object.keys(infoPanelDataSource.data).length > 0">
+                <table class="grid-table">
+                    <!-- <thead>
+                        <tr>
+                            <th colspan="2">基本信息</th>
+                        </tr>
+                    </thead> -->
                     <tbody>
-                        <tr class="row">
-                            <td class="row__name">pH值</td>
-                            <td class="row__value">{{ pH.toFixed(2) }}</td>
+                        <!-- 位置信息 -->
+                        <tr>
+                            <td>经度</td>
+                            <td>{{ infoPanelDataSource.data['经度'] }}</td>
                         </tr>
-                        <tr class="row"
-                            v-for="(value, name) in infoPanelDataSource.data"
-                            :key="name">
-                            <td class="row__name">{{ name }}</td>
-                            <td class="row__value">{{ value }}</td>
+                        <tr>
+                            <td>纬度</td>
+                            <td>{{ infoPanelDataSource.data['纬度'] }}</td>
                         </tr>
-                        <tr class="row">
-                            <td class="row__name">是否实施安全利用</td>
-                            <td class="row__value">否</td>
+                        <!-- 土壤信息 -->
+                        <tr>
+                            <td>类别</td>
+                            <td>{{ infoPanelDataSource.data['类别'] }}</td>
                         </tr>
-                        <tr class="row" v-show="zh5_level == 3">
-                            <td class="row__name">种植结构调整方案</td>
-                            <td class="row__value">禁种粮食作物，推荐桑树、花卉等非食用作物</td>
+                        <tr>
+                            <td>置信度</td>
+                            <td>{{ infoPanelDataSource.data['置信度'] }}</td>
                         </tr>
-                        <tr class="row" v-show="isCd && zh5_level != 3">
-                            <td class="row__name">种植结构调整方案</td>
-                            <td class="row__value">种植低镉富集水稻品种如甬籼15、甬优538</td>
+                        <!-- 预留更多信息行 -->
+                        <tr>
+                            <td>作物类型</td>
+                            <td>待添加</td>
                         </tr>
-                        <tr class="row" v-show="isAcid">
-                            <td class="row__name">土壤降酸措施</td>
-                            <td class="row__value">施用碱性物质如CaO</td>
+                        <tr>
+                            <td>灾害类型</td>
+                            <td>待添加</td>
                         </tr>
-                        <tr class="row">
-                            <td class="row__name">土壤钝化措施</td>
-                            <td class="row__value">{{soilPassive}}</td>
+                        <tr>
+                            <td>预测产量</td>
+                            <td>待添加</td>
                         </tr>
-                        <tr class="row">
-                            <td class="row__name" >肥料种类优化</td>
-                            <td class="row__value">增施有机肥，推荐施用钙镁磷肥、硅钙镁钾肥</td>
-                        </tr>
-                        <tr class="row" v-show="zh5_level != 3">
-                            <td class="row__name">分蘖期水分管控</td>
-                            <td class="row__value">搁田不晒田</td>
-                        </tr>
-                        <tr class="row" v-show="zh5_level != 3">
-                            <td class="row__name">分蘖末期水分管控</td>
-                            <td class="row__value">根据苗情适时灌水</td>
-                        </tr> 
-                        <tr class="row" v-show="zh5_level != 3">
-                            <td class="row__name">孕穗期~成熟期水分管控</td>
-                            <td class="row__value">全程保持田面3-5cm积水层，收获前自然落干</td>
-                        </tr>                                 
+                        
                     </tbody>
                 </table>
-                <div>
-                </div>
             </div>
         </div>
     </div>
@@ -118,356 +64,285 @@ import TMap from "../../utils/tmap2"
 import mapboxgl from "mapbox-gl"
 
 export default {
+    name: 'InfoTable',
     props: {
         visibleLayerInfos: {
             type: Array,
             required: true
         },
-
+        initialPosition: {  // 需要加逗号分隔不同的 props
+            type: Object,
+            default: () => ({ x: 300, y: 15 }) // 与 InfoWindow 相同的默认位置
+        }
     },
     data() {
         return {
             tmap: null,
-            infoPanelDataSources: {},
-            tagColor: 'var(--content-bg-color)',
-            defaultInfoPanelConfig: {
-                titleField: "name",
-                alias: null
-            },
-            title:"江北区管控受污染耕地POI",
-            popup: null,
-            att:{'经度':121.578869,
-                '纬度':29.2988272},//属性
-            img_path : '/image/default.jpg',
-            image_name:'default.jpg',
-            update_flag:true,
-            loading:true,
-            detailVisible:'hidden',
-            tableData:[],//存储信息页面数据
-            infoData:[],//更换键名后展示信息
-            currentPage:1,
-            currentPageSize:1,
-            totalItemsNum:1,
-            pH:0,
-            soilPassive:"",
-            isCd:false,
-            zh5_level:1
-
+            detailVisible: 'hidden',
+            loading: false,
+            infoPanelDataSources: [],
+            position: this.initialPosition,
+            dragging: false,
+            dragOffset: { x: 0, y: 0 },
+            isFirstShow: true // 添加标记，用于判断是否是首次显示
         }
     },
-    mounted() {
-        const _this = this
-        _this.tmap = TMap.getInstance()
-        _this.popup = new mapboxgl.Popup({
-            closeButton: false,
-            closeOnClick: false
-        })
-        _this.tmap.map.on('load', function() {
-            _this.registerInfoPanel()
-        })
+
+    computed: {
+        panelStyle() {
+            return {
+                visibility: this.detailVisible,
+                left: this.position.x + 'px',
+                top: this.position.y + 'px'
+            }
+        },
+        currentPanelTitle() {
+            return (this.infoPanelDataSources[0] && this.infoPanelDataSources[0].name) || '特征信息'
+        }
     },
 
+    mounted() {
+        // 确保在 map 加载完成后再注册事件
+        this.tmap = TMap.getInstance()
+        const map = this.tmap.map
+        
+        if (map.loaded()) {
+            this.registerInfoPanel()
+        } else {
+            map.on('load', () => {
+                this.registerInfoPanel()
+            })
+        }
+    },
     methods: {
-        registerInfoPanel() {
-            const _this = this
-            const map = _this.tmap.map
+        startDrag(event) {
+            this.dragging = true;
+            this.dragOffset.x = event.clientX - this.position.x;
+            this.dragOffset.y = event.clientY - this.position.y;
+            window.addEventListener('mousemove', this.onDrag);
+            window.addEventListener('mouseup', this.stopDrag);
+        },
 
-            // 地图中的 hover 事件
-            _this.visibleLayerInfos.forEach(layerInfo => {
+        onDrag(event) {
+            if (this.dragging) {
+                this.position = {
+                    x: event.clientX - this.dragOffset.x,
+                    y: event.clientY - this.dragOffset.y
+                };
+            }
+        },
+
+        stopDrag() {
+            this.dragging = false;
+            window.removeEventListener('mousemove', this.onDrag);
+            window.removeEventListener('mouseup', this.stopDrag);
+        },
+
+        registerInfoPanel() {
+            const map = this.tmap.map
+            
+            // 遍历所有可见图层
+            this.visibleLayerInfos.forEach(layerInfo => {
                 layerInfo.layers.forEach(layerConfig => {
                     const layerId = layerConfig.layer.id
                     const infoPanelConfig = layerConfig.infoPanelConfig
 
-                    if (!layerConfig.hoverable) {
+                    if (!layerConfig.clickable) {
                         return
                     }
 
-                    _this.infoPanelDataSources[layerId] = {
-                        visible: false,
-                        name: '',
-                        layerId:'',
-                        data: {}
-                    }
+                    // 先移除已存在的事件监听器
+                    map.off('mousemove', layerId)
+                    map.off('mouseleave', layerId)
+                    map.off('click', layerId)
 
-                    map.on('mousemove',layerId,function(e){
-                        map.getCanvas().style.cursor = 'pointer';
+                    // 添加鼠标悬停效果
+                    map.on('mousemove', layerId, (e) => {
+                        map.getCanvas().style.cursor = 'pointer'
                     })
-                    map.on('mouseleave',layerId,function(e){
-                        map.getCanvas().style.cursor = '';
+                    
+                    map.on('mouseleave', layerId, (e) => {
+                        map.getCanvas().style.cursor = ''
                     })
 
-                    map.on('click', layerId, function (e) {
-                        if (_this.showInfoPanel) {
-                            _this.showInfoPanel = false
-                        }
-                        // console.log("layer",layerId)
-                        _this.infoData=[];//清空信息
-                        _this.tableData=[];//清空信息
-                        _this.img_path = '/image/default.jpg'
-                        _this.infoPanelDataSources['arable-land']={
-                            visible: false,
-                            name: '',
-                            layerId:'',
-                            data: {}
-                        };
+                    // 添加点击事件
+                    map.on('click', layerId, (e) => {
+                        console.log('Layer clicked:', layerId)
+                        console.log('Event:', e)
                         const feature = e.features[0]
-                        _this.loading = true
-                        _this.detailVisible = 'visible'
-                        map.getCanvas().style.cursor = 'pointer';
-                        // console.log("info",_this.tableData)
-                        _this.updateInfoPanelInfo(feature, layerId, infoPanelConfig)
+                        console.log('Feature:', feature)
+                        if (!feature) {
+                            console.log('No feature found')
+                            return
+                        }
+
+                        console.log('Feature properties:', feature.properties)
+                        this.updateInfoPanelPosition(e, feature)
+                        this.updateInfoPanelInfo(feature, layerId, infoPanelConfig)
+                        this.detailVisible = 'visible'
                     })
                 })
             })
         },
-        /**
-         * 关闭窗口，代替原来的mouseleave的功能
-         */
         closePanel() {
-            const _this = this;
-            const map = _this.tmap.map;
-            map.getCanvas().style.cursor = '';
-            _this.detailVisible = 'hidden';
-            _this.infoData=[];//关闭窗口后，清口信息
-            _this.img_path = '/image/default.jpg'
-            _this.infoPanelDataSources['arable-land']={
-                visible: false,
-                name: '',
-                layerId:'',
-                data: {}
-            };
-
+            this.detailVisible = 'hidden'
+            this.infoPanelDataSources = []
+            if (this.tmap && this.tmap.map) {
+                this.tmap.map.getCanvas().style.cursor = ''
+            }
+        },
+        updateInfoPanelPosition(evt) {
+            // 移除这个方法中的位置更新逻辑
+            // 只在第一次显示时设置 detailVisible
+            if (this.isFirstShow) {
+                this.isFirstShow = false
+            }
+            this.detailVisible = 'visible'
         },
 
-        /**
-         * 根据 hover 或 click 事件更新信息板位置
-         * @param evt hover 或 click 事件
-         * @rtype null
-         */
-        updateInfoPanelPosition(evt, feature) {
-            const _this = this
-            const map = _this.tmap.map
-            const coordinates = feature.geometry.coordinates.slice()
-            // console.log("coor",coordinates)
-            // console.log("html",_this.$refs['info-panel'])
-
-            map.getCanvas().style.cursor = 'pointer';
-            // console.log(_this.$refs['info-panel'])
-            // _this.popup.setLngLat(evt.lngLat).setHTML(_this.$refs['info-panel'].innerHTML).addTo(map)
-            _this.popup.setLngLat(evt.lngLat).setHTML(document.getElementById('info-panel').innerHTML).setMaxWidth("600px").addTo(map)
+        closePanel() {
+            this.detailVisible = 'hidden'
+            this.infoPanelDataSources = []
+            this.isFirstShow = true
+            if (this.tmap && this.tmap.map) {
+                this.tmap.map.getCanvas().style.cursor = ''
+            }
         },
-        /**
-         * 根据目标 feature 更新信息板内容
-         * @param feature  目标 feature 对象
-         * @param layerId
-         * @param infoPanelConfig
-         * @rtype Boolean
-         */
+
         updateInfoPanelInfo(feature, layerId, infoPanelConfig) {
-            const _this = this
-            const attrs = feature.properties
-            console.log("attrs", attrs)
-            // 点击POI点位触发info-panel信息更新
-            if(layerId == "measure_info"){
-                const lon = attrs['longitude']
-                // const id = 'A102'
-                const img_alias = Object.keys(infoPanelConfig.img_alias)[0];
-                _this.currentPage = 1;
-                const alias = infoPanelConfig.alias
-                _this.$axios.get(`/api/measure/query_item_by_lon?longitude=${lon}`)
-                .then(res =>{
-                    if (res.data.status === 0){
-                        _this.tableData = res.data.data;
-                        _this.att = res.data.data;
-                        _this.image_name = _this.att['0']['picture_name']
-                        _this.updateInfo(_this.currentPage);
-                        for(let i=0;i<_this.tableData.length;i++){
-                            _this.infoData[i] = {}
-                            Object.keys(alias).forEach((key) => {
-                                let val = _this.tableData[i][key]
-                                if(alias[key]=='措施类型' && val==1){
-                                    val = '治理措施'
-                                }else if(alias[key]=='措施类型' && val==2){
-                                    val = '试验田块'
-                                }
-                                if(val && val != "null"){
-                                    _this.infoData[i][alias[key]] = val
-                                }
-                            })
-                        }
-                        _this.loading = false
-                    }
-                }).catch(err => {
-                    console.log(err)
-                })
-            }else{
-                _this.loading = false
+            if (layerId !== 'stage') return
+
+            const properties = feature.properties
+            const alias = infoPanelConfig.alias || {}
+            const data = {}
+            
+            // 先添加经纬度信息
+            if (feature.geometry && feature.geometry.coordinates) {
+                // 如果是多边形，取中心点
+                let center
+                if (feature.geometry.type === 'Polygon') {
+                    const coordinates = feature.geometry.coordinates[0]
+                    const sumX = coordinates.reduce((sum, coord) => sum + coord[0], 0)
+                    const sumY = coordinates.reduce((sum, coord) => sum + coord[1], 0)
+                    center = [
+                        (sumX / coordinates.length).toFixed(6),
+                        (sumY / coordinates.length).toFixed(6)
+                    ]
+                } else {
+                    center = feature.geometry.coordinates
+                }
+                data['经度'] = center[0]
+                data['纬度'] = center[1]
             }
             
-            // 点击地块触发info-panel信息更新
-            if (layerId == 'arable-land') {
-                _this.pH = Math.random() * (7 - 5.5) + 5.5;
-                if (_this.pH < 5.5) {
-                    _this.isAcid = true
-                    _this.soilPassive = "碱性物质+腐殖酸/含硅材料"
-                } else if (_this.pH < 6.5) {
-                    _this.isAcid = true
-                    _this.soilPassive = "碱性物质+腐殖酸"
-                } else {
-                    _this.isAcid = false
-                    _this.soilPassive = "腐殖酸/生物炭"
+            // 添加其他属性
+            for (let key in properties) {
+                if (alias[key]) {
+                    let value = properties[key]
+                    if (key === 'stage') {
+                        value = value + '类'
+                    } else if (key === 'confidence') {
+                        value = Number(value).toFixed(2)
+                    }
+                    data[alias[key]] = value
                 }
-
-                if (attrs.mbwrw.includes('镉')) {
-                    _this.isCd = true
-                } else {
-                    _this.isCd = false
-                }
-                _this.zh5_level = attrs.zh5_level
             }
-
-
-            if (!infoPanelConfig) return false
-
-            _this.$set(_this.infoPanelDataSources, layerId, {
+            
+            this.infoPanelDataSources = [{
+                layerId: layerId,
+                name: infoPanelConfig.title || '特征信息',
                 visible: true,
-                name: attrs[infoPanelConfig.titleField] || infoPanelConfig.title,
-                layerId:layerId,
-                data: (() => {
-                    const alias = infoPanelConfig.alias
-                    if (!alias) {
-                        return attrs
-                    } else {
-                        const data = {}
-                        Object.keys(alias).forEach((key) => {
-                            let val = attrs[key]
-                            if (val && val !== "null") {
-                                data[alias[key]] = val
-                            }
-                        })
-                        return data
-                    }
-                })(),
-            })
-
-
-            _this.$forceUpdate()
-            
-            return true
-        },
-
-        /**
-         * 更换页码发生的指令
-         */
-        handleCurrentChange(currentPage){
-            this.currentPage = currentPage
-            this.updateInfo(currentPage) //更换页面信息
-        },
-
-        /**
-         * 更换页码时，信息的变动，不进行属性请求操作,只请求图片信息
-         */
-        updateInfo(currentPage){
-            const _this = this;
-            const image_name = _this.tableData[currentPage-1]['picture_name']
-            _this.img_path = '/image/' + image_name
-            console.log("path",_this.img_path)
-            _this.$axios.get(_this.img_path)
-            .then(res => {
-                // _this.img_path = '/image/' + _this.image_name
-            }).catch(err => {
-                _this.img_path = '/image/default.jpg'
-            })
+                data: data
+            }]
         }
     }
 }
 </script>
 
-<style lang="stylus" scoped>
-#info-panel{
-    position:relative;
-    background-color:white
-    border-radius:5%;
-    #quit-btn{
-        position:absolute;
-        left:40%
-    }
+<style scoped>
+.info-window {
+    position: absolute;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    /* 可以通过修改 font-size 来改变整体字体大小 */
+    /* font-size: 14px; */
 }
-.info-panel__header
-    width 100%
-    padding 0 14px
-    margin-top 12px
-    position relative
-    display flex
-    align-items center
-    .info-name
-        display inline-block
-        width calc(100% - 35px)
-        color var(--header-color)
-        font-size 14px
-        font-weight 500
-        letter-spacing 0.43px
-    .color-tag
-        display inline-block
-        position absolute
-        right 20px
-        width 20px
-        height 20px
-        line-height 20px
-        border-radius 100%
-.info-panel__table
-    width 100%
-    padding 12px
-    position relative
-    tr.row
-        font-size 13px
-        line-height 15px
-        .row__name
-            color var(--content-color)
-            padding 4px
-            width 140px
-        .row__value
-            color var(--header-color)
-            padding 4px
-            text-align right
-            font-weight 500
 
-.inner_wrapper{
+.info-window-header {
     display: flex;
-    justify-content space-between;
+    justify-content: space-between;
+    align-items: center;
+    cursor: move;
+    background: #f1f1f1;
+    padding: 5px;
+    border-bottom: 1px solid #ccc;
 }
 
-.imgdom{
-    // flex:1;
-    width:60%;
-    // border:1px solid;
-    display:flex;
-    justify-content: center;
-    align-items:center;
-    .img{
-        width:180px;
-        height:180px;
-        margin-right:30px;
-    }
+.title {
+    flex: 1;
+    text-align: center;
+    /* 标题字体大小 */
+    /* font-size: 16px; */
+    /* font-weight: bold; */
 }
-.detail-window-close-btn{
-    right 5px
-    top 2px
-    // margin 10px
-    margin:0 0 0 -30px;
-    width 25px
-    height 25px
-    line-height 25px
-    text-align center
-    background-color: #eee
-    border-radius 50%
-    color #aaa
-    cursor pointer
-    transition .2s all ease-in-out
+
+.toggle-btn {
+    margin-right: 10px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
 }
-.detail-window-close-btn:hover{
-    background-color: #aee3df
-    color #fff
+
+.info-window-content {
+    margin: 10px 0;
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+    overflow: hidden;
 }
-            
+
+.grid-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.grid-table tr:nth-child(odd) {
+    background-color: #E0F7FA;
+}
+
+.grid-table tr:nth-child(even) {
+    background-color: #B2EBF2;
+}
+
+.grid-table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+    color: #333;
+    /* 表格内容字体大小 */
+    font-size: 15px; 
+}
+
+/* 如果需要不同的列使用不同的字体大小 */
+/* .grid-table td:first-child {
+    font-size: 13px;  // 第一列（标签）
+}
+.grid-table td:last-child {
+    font-size: 14px;  // 第二列（值）
+} */
+
+.detail-window-close-btn {
+    cursor: pointer;
+    padding: 5px;
+    color: #666;
+    /* 关闭按钮字体大小 */
+    /* font-size: 16px; */
+}
+
+.detail-window-close-btn:hover {
+    color: #000;
+}
 </style>

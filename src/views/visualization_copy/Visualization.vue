@@ -36,7 +36,7 @@
 
 <script>
 import TMap from "../../components_copy/utils/tmap";
-import layerInfos from "./components/configs";
+import layerInfos from "@/views/visualization/components/configs/index.js";
 import VectorLayer from './components/layers/VectorLayer';
 import LayerControls from "./components/controls/LayerControls";
 import InfoPanel from "./components/controls/InfoPanel";
@@ -65,16 +65,16 @@ export default {
       Fullscreen,
       Zoom,
       HomeButton,
-      BasemapGallery,
+    //   BasemapGallery,
       Pitcher,
       Geocoder,
       HillShade,
-      MapLegend,
+    //   MapLegend,
       ThreeDimension,
       RiskAssessment,
       AreaRiskAssessment,
       InfoWindow,
-      TimeSlider
+    //   TimeSlider
   },
   data() {
     return {

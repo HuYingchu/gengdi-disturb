@@ -1,7 +1,7 @@
 import colormaps from '../../../../components/utils/colormap'
 
 const colormap = colormaps['57']
-const visibility = 'visible'
+const visibility = 'none'
 const opacity = 1
 
 //这是layer中paint的颜色需要用到的格式

@@ -163,9 +163,9 @@
 
 <script>
 import axios from 'axios';
-import { registerDomControl } from '../../components/utils/controlutils';
-import TMap from "../../components/utils/tmap";
-import NormalWindow from '../../components/window/NormalWindow.vue';
+import { registerDomControl } from '../../components_copy/utils/controlutils';
+import TMap from "../../components_copy/utils/tmap";
+import NormalWindow from '../../components_copy/window/NormalWindow.vue';
 
 export default {
     components: {NormalWindow},

@@ -23,7 +23,7 @@
                     ></path>
                 </svg>
             </button>    
-            <span class="title">特征信息</span>
+            <span class="title">扰动信息</span>
         </div>
         <div class="info-window-content" v-show="!collapsed">
             
