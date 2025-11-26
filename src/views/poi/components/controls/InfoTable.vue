@@ -31,30 +31,39 @@
                         </tr>
                         <!-- 土壤信息 -->
                         <tr>
-                            <td>类别</td>
-                            <td>{{ infoPanelDataSource.data['类别'] }}</td>
+                            <td>生长阶段</td>
+                            <td>{{ infoPanelDataSource.data['生长阶段'] }}</td>
                         </tr>
                         <tr>
-                            <td>置信度</td>
+                            <td>阶段置信度</td>
                             <td>{{ infoPanelDataSource.data['置信度'] }}</td>
                         </tr>
-                        <!-- 预留更多信息行 -->
+                        <tr>
+                            <td>当前复种指数</td>
+                            <td>{{ infoPanelDataSource.data['当前复种指数'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>最近观测时间</td>
+                            <td>{{ infoPanelDataSource.data['最近观测时间'] }}</td>
+                        </tr>
                         <tr>
                             <td>作物类型</td>
-                            <td>待添加</td>
-                        </tr>
-                        <tr>
-                            <td>灾害类型</td>
-                            <td>待添加</td>
-                        </tr>
-                        <tr>
-                            <td>预测产量</td>
-                            <td>待添加</td>
+                            <!-- <td>{{ infoPanelDataSource.data['地块类型'] }}</td> -->
+                            <td>{{ infoPanelDataSource.data['种植类型'] }}</td>
                         </tr>
                         
+                        <!-- <tr>
+                            <td>预测产量</td>
+                            <td>839.64斤/亩</td>
+                        </tr> -->
+                        <tr>
+                            <td>灾害类型</td>
+                            <td>无</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
+            
         </div>
     </div>
 </template>
@@ -124,6 +133,24 @@ export default {
             window.addEventListener('mouseup', this.stopDrag);
         },
 
+        convertDaysToDate(daysSince1982) {
+            if (daysSince1982 == null) return "无数据";
+            
+            // 基准日期：1982年7月16日（注意月份是0-based，7月=6）
+            const baseDate = new Date(1982, 6, 16);
+            
+            // 计算目标日期
+            const targetDate = new Date(baseDate);
+            targetDate.setDate(baseDate.getDate() + Number(daysSince1982));
+            
+            // 格式化为 YYYY-MM-DD
+            const year = targetDate.getFullYear();
+            const month = String(targetDate.getMonth() + 1).padStart(2, '0');
+            const day = String(targetDate.getDate()).padStart(2, '0');
+            
+            return `${year}-${month}-${day}`;
+        },
+
         onDrag(event) {
             if (this.dragging) {
                 this.position = {
@@ -167,7 +194,6 @@ export default {
                     })
 
                     // 添加点击事件
-                    // 添加点击事件
                     map.on('click', layerId, (e) => {
                         const feature = e.features[0]
                         if (!feature) return
@@ -177,7 +203,7 @@ export default {
                             map.setFeatureState(
                                 { 
                                     source: 'stage-outline',  // 修改：使用线条图层的 source
-                                    sourceLayer: 'stagejx',
+                                    sourceLayer: 'haiyan_category',
                                     id: this.selectedFeatureId 
                                 },
                                 { selected: false }
@@ -189,7 +215,7 @@ export default {
                         map.setFeatureState(
                             { 
                                 source: 'stage-outline',  // 修改：使用线条图层的 source
-                                sourceLayer: 'stagejx',
+                                sourceLayer: 'haiyan_category',
                                 id: this.selectedFeatureId 
                             },
                             { selected: true }
@@ -252,14 +278,21 @@ export default {
             
             // 生长阶段映射表
             const stageMap = {
-                '1': '萌发期',
-                '2': '返青初期',
-                '3': '返青盛期',
+                '1': '休眠期',
+                '2': '返青期',
+                '3': '返青期',
                 '4': '成熟期',
-                '5': '衰老初期',
-                '6': '衰老盛期',
+                '5': '衰老期',
+                '6': '衰老期',
                 '7': '休眠期'
             }
+
+            const categoryMap = {
+                '1': '小麦',
+                '2': '油菜',
+                '3': '水稻',
+                '4': '其他'
+            };
 
             // 先添加经纬度信息
             if (feature.geometry && feature.geometry.coordinates) {
@@ -287,8 +320,12 @@ export default {
                     if (key === 'stage') {
                         value = stageMap[value]
                     } else if (key === 'confidence') {
-                        value = Number(value).toFixed(2)
-                    }
+                        value = (Number(value) * 100).toFixed(2) + '%';
+                    } else if (key === 'lasttime') {
+                        value = this.convertDaysToDate(Number(value));
+                    } else if (key === 'category') {
+                        value = categoryMap[value]
+                    }   
                     data[alias[key]] = value
                 }
             }
@@ -363,7 +400,7 @@ export default {
 
 .grid-table td {
     border: 1px solid #ccc;
-    padding: 10px;
+    padding:10px;
     text-align: left;
     color: #333;
     /* 表格内容字体大小 */
@@ -389,4 +426,5 @@ export default {
 .detail-window-close-btn:hover {
     color: #000;
 }
+
 </style>

@@ -136,12 +136,12 @@ export default {
         padding 12px
         border-top 1px solid var(--grey)
         .layer-legend-title
-            font-size 13px
+            font-size 15px
         .layer-legend-info-container
             margin-top 10px
             .layer-legend-info-item
                 width 100%
-                font-size 10px
+                font-size 13px
                 line-height 23px
                 span.layer-legend-info-item-color
                     display inline-block

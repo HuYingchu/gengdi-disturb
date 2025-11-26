@@ -76,12 +76,12 @@ Layer Controls 图层管理器
                                     </svg>
                                 </div>
                                 <div class="layer-settings" v-show="layerInfo.controls.showSettings">
-                                    <colormap-selector
+                                    <!-- <colormap-selector
                                         class="colormap-selector"
                                         :curColormap="layerInfo.controls.colormap"
                                         v-show="layerInfo.type !== 'raster'"
                                         @changeColormap="changeColormap($event, layerInfo)">
-                                    </colormap-selector>
+                                    </colormap-selector> -->
                                     <layer-opacity-control :layer-info="layerInfo"></layer-opacity-control>
                                 </div>
                             </li>

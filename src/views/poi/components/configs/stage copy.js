@@ -15,7 +15,7 @@ function render1(colormap) {
         5, colormap[4],
         6, colormap[5],
         7, colormap[6],
-        /* other */ '#ccc'
+        /* other */ '#000'
     ]
 }
 
@@ -31,18 +31,18 @@ function legendRender1(colormap) {
             ['5-阶段5', colormap[4]],
             ['6-阶段6', colormap[5]],
             ['7-阶段7', colormap[6]],
-            // ['其他', '#ccc']
+            /* 其他 */ '#000'
         ]
     }
 }
 
 export default {
-    name: 'stagejx4',
+    name: 'stagejx',
     aliasName: '嘉兴耕地阶段与置信度',
     topicName: '江北区类别划分成果',
     type: 'vector',
     layers: [{
-        aliasName: 'stagejx4',
+        aliasName: 'stagejx',
         hoverable: false,
         clickable: false,
         opacityAttr: 'line-opacity',
@@ -57,15 +57,15 @@ export default {
                 // 'http://10.75.68.56:8080/geoserver/gwc/service/tms/1.0.0/jiangbei_arable_land%3Ajb_classify@EPSG%3A3857@pbf/{z}/{x}/{y}.pbf',
                 // 'http://jbdispalydemo.natapp1.cc/geoserver/geoserver/gwc/service/tms/1.0.0/jiangbei_arable_land%3Ajb_classify@EPSG%3A3857@pbf/{z}/{x}/{y}.pbf',
                 // 'http://10.75.68.56:8080/geoserver/gwc/service/tms/1.0.0/jiangbei_arable_land%3Ajb_classify@EPSG%3A3857@pbf/{z}/{x}/{y}.pbf',
-                'http://10.75.68.56:8080/geoserver/gwc/service/tms/1.0.0/sccd%3Astagejx4@EPSG%3A3857@pbf/{z}/{x}/{y}.pbf'
+                'http://10.75.68.56:8080/geoserver/gwc/service/tms/1.0.0/sccd%3Astagejx@EPSG%3A3857@pbf/{z}/{x}/{y}.pbf'
             ],
             generateId: true
         },
         layer: {
-            id: 'stagejx4',
+            id: 'stagejx',
             type: 'line',
-            source: 'stagejx4',
-            'source-layer': 'stagejx4',
+            source: 'stagejx',
+            'source-layer': 'stagejx',
             layout: {
                 visibility: visibility
             },
@@ -85,7 +85,7 @@ export default {
         hoverable: true,
         clickable: true,
         opacityAttr: 'fill-opacity',
-        before: 'stagejx4',
+        before: 'stagejx',
         source: {
             // type: 'geojson',
             // data: '/api/JBLBHF.geojson',
@@ -98,15 +98,15 @@ export default {
                 // 'http://jbdispalydemo.natapp1.cc/geoserver/geoserver/gwc/service/tms/1.0.0/jiangbei_arable_land%3Ajb_classify@EPSG%3A3857@pbf/{z}/{x}/{y}.pbf',
                 // 'http://10.75.68.56:8080/geoserver/gwc/service/tms/1.0.0/jiangbei_arable_land%3Ajb_classify@EPSG%3A3857@pbf/{z}/{x}/{y}.pbf',
                 // 'http://10.75.68.56:8080/geoserver/gwc/service/tms/1.0.0/jiangbei_arable_land%3Ajb_classify@EPSG%3A3857@pbf/{z}/{x}/{y}.pbf',
-                'http://10.75.68.56:8080/geoserver/gwc/service/tms/1.0.0/sccd%3Astagejx4@EPSG%3A3857@pbf/{z}/{x}/{y}.pbf'
+                'http://10.75.68.56:8080/geoserver/gwc/service/tms/1.0.0/sccd%3Astagejx@EPSG%3A3857@pbf/{z}/{x}/{y}.pbf'
             ],
             generateId: true
         },
         layer: {
-            id: 'stagejx4',
+            id: 'stagejx',
             type: 'fill',
-            source: 'stagejx4',
-            'source-layer': 'stagejx4',
+            source: 'stagejx',
+            'source-layer': 'stagejx',
             layout: {
                 visibility: visibility
             },

@@ -10,34 +10,48 @@ function render1(colormap) {
         ['to-number', ['get', 'stage']],  // 将stage转换为数字
         1, colormap[0],
         2, colormap[1],
-        3, colormap[2],
-        4, colormap[3],
-        5, colormap[4],
-        6, colormap[5],
-        7, colormap[6],
-        '#ccc'
+        3, colormap[1],
+        4, colormap[2],
+        5, colormap[3],
+        6, colormap[3],
+        7, colormap[0],
+        '#000'
     ]
 }
+
+// function legendRender1(colormap) {
+//     return {
+//         name: '作物阶段',
+//         type: 'polygon',
+//         info: [
+//             ['萌发期', colormap[0]],
+//             ['返青初期', colormap[1]],
+//             ['返青盛期', colormap[2]],
+//             ['成熟期', colormap[3]],
+//             ['衰老初期', colormap[4]],
+//             ['衰老盛期', colormap[5]],
+//             ['休眠期', colormap[6]],
+//         ]
+//     }
+// }
 
 function legendRender1(colormap) {
     return {
         name: '作物阶段',
         type: 'polygon',
         info: [
-            ['萌发期', colormap[0]],
-            ['返青初期', colormap[1]],
-            ['返青盛期', colormap[2]],
-            ['成熟期', colormap[3]],
-            ['衰老初期', colormap[4]],
-            ['衰老盛期', colormap[5]],
-            ['休眠期', colormap[6]],
+            ['休眠期', colormap[0]],
+            ['返青期', colormap[1]],
+            ['成熟期', colormap[2]],
+            ['衰老期', colormap[3]],
+            ['休眠期', colormap[0]],
         ]
     }
 }
 
 export default {
     name: 'stage',
-    aliasName: '嘉兴市（部分）',
+    aliasName: '海盐县',
     topicName: '浙江省耕地情况',
     type: 'vector',
     layers: [{
@@ -49,7 +63,7 @@ export default {
             type: 'vector',
             scheme: 'tms',
             tiles: [
-                'http://10.75.68.56:8080/geoserver/gwc/service/tms/1.0.0/sccd%3Astagejx@EPSG%3A3857@pbf/{z}/{x}/{y}.pbf'
+                'http://10.75.68.56:8080/geoserver/gwc/service/tms/1.0.0/sccd%3Ahaiyan_category@EPSG%3A3857@pbf/{z}/{x}/{y}.pbf'
             ],
             generateId: true
         },
@@ -57,7 +71,7 @@ export default {
             id: 'stage-outline',
             type: 'line',
             source: 'stage-outline',
-            'source-layer': 'stagejx',
+            'source-layer': 'haiyan_category',
             layout: {
                 visibility: visibility
             },
@@ -72,7 +86,7 @@ export default {
                     'case',
                     ['boolean', ['feature-state', 'selected'], false],
                     6,          // 选中时的边框宽度
-                    1           // 默认边框宽度
+                    0.5           // 默认边框宽度
                 ],
                 'line-opacity': opacity
             }
@@ -92,7 +106,7 @@ export default {
             type: 'vector',
             scheme: 'tms',
             tiles: [
-                'http://10.75.68.56:8080/geoserver/gwc/service/tms/1.0.0/sccd%3Astagejx@EPSG%3A3857@pbf/{z}/{x}/{y}.pbf'
+                'http://10.75.68.56:8080/geoserver/gwc/service/tms/1.0.0/sccd%3Ahaiyan_category@EPSG%3A3857@pbf/{z}/{x}/{y}.pbf'
             ],
             generateId: true
         },
@@ -100,7 +114,7 @@ export default {
             id: 'stage',
             type: 'fill',
             source: 'stage',
-            'source-layer': 'stagejx',
+            'source-layer': 'haiyan_category',
             layout: {
                 visibility: visibility
             },
@@ -120,8 +134,11 @@ export default {
         infoPanelConfig: {
             title: '耕地信息',
             alias: {
-                "stage": "类别",
-                "confidence": "置信度"
+                "stage": "生长阶段",
+                "confidence": "置信度",
+                "lasttime": "最近观测时间",
+                "rotation":"当前复种指数",
+                "category":"种植类型",
             }
         }
     }],

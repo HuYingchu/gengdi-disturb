@@ -32,7 +32,7 @@ export default {
             const map = _this.tmap.map
 
             map.flyTo({
-                center: [121.44603, 29.974815],
+                center: [120.84603, 30.52993],
                 zoom: 11.5,
                 bearing: 0,
                 pitch: 0
